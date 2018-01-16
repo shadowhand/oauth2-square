@@ -145,4 +145,14 @@ class Square extends AbstractProvider
 
         return parent::prepareAccessTokenResult($result);
     }
+
+    protected function httpBuildQuery($params, $numeric_prefix = 0, $arg_separator = '&', $enc_type = null)
+    {
+        // Remove approval_prompt parameter and sort remaining parameters to
+        // avoid a superfluous redirect by Square
+        unset($params['approval_prompt']);
+        ksort($params);
+
+        return parent::httpBuildQuery($params, $numeric_prefix, $arg_separator, $enc_type);
+    }
 }
